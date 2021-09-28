@@ -14,7 +14,7 @@ struct list{
 
 // Get array ptr to data ptr at index
 static void** index_into_list(array_list* list, int index){
-    return (void**)((uint8_t**)list->array + (index*list->data_size));
+    return (void**)((uint8_t**)list->array + (index*sizeof(void*)));
 }
 
 // Double the Backing Array's Size
@@ -24,16 +24,13 @@ static bool increase_array_size(array_list* list){
     assert(list->array_size >= 0);
 
     // Calculate old and new size in bytes
-    size_t old_size = list->array_size * sizeof(void*);
-    size_t new_size = list->array_size * sizeof(void*) * 2;
+    size_t old_size = list->array_size;
+    size_t new_size = list->array_size * 2;
 
-    // Handle when the current size is 0
-    if(old_size == 0){
-        new_size = 1 * sizeof(void*);
-    }
+    printf("Old Size: %d\nNew Size: %d\n", old_size, new_size);
 
     // Double Array Size
-    void** ptr = realloc(list->array, new_size);
+    void** ptr = realloc(list->array, new_size * sizeof(void*));
     if(!ptr){
         fprintf(stderr, "Increase Array Size Error - Reallocation Failed\n");
         return false;
@@ -43,16 +40,19 @@ static bool increase_array_size(array_list* list){
     list->array = ptr;
     list->array_size = new_size;
 
+    printf("Ints:");
+    print_integers(list);
+
     // Zero Out the New Memory
-    void* pStart = (void*)index_into_list(list, (int)old_size);
-    memset(pStart, 0, old_size);
+    void* pStart = (void*)index_into_list(list, old_size);
+    memset(pStart, 0, old_size*sizeof(void*));
 
     return true;
 }
 
 // Create New Array List
 array_list* create_array_list(size_t list_size, size_t data_size){
-    if(list_size <= 0 || data_size <= 0){
+    if(list_size < 0 || data_size <= 0){
         fprintf(stderr, "create_array_list Error - list_size or data_size is not large enough\n");
         return NULL;
     }
@@ -65,6 +65,7 @@ array_list* create_array_list(size_t list_size, size_t data_size){
     }
 
     // Allocate for background array
+    if(list_size == 0) list_size = 1;
     void** ptr = calloc(list_size, sizeof(void*));
     if(!ptr){
         destroy_array_list(new_list);
@@ -119,8 +120,8 @@ bool array_list_add(array_list* list, void* data){
     }
 
     // Add Element to Array & Copy the data
-    int append_offset = list->num_elements*list->data_size;
-    *(void**)(list->array + append_offset) = element;
+    void** ptr = index_into_list(list, list->num_elements);
+    *ptr = element;
     memcpy(element, data, list->data_size);
     list->num_elements += 1;
     return true;
