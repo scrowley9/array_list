@@ -1,2 +1,2 @@
 # array_list
-Array List Library in C
+ArrayList Library in C
