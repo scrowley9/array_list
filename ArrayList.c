@@ -192,7 +192,8 @@ void print_integers(array_list* list){
     assert(list->array_size >= 0);
     assert(list->data_size > 0);
     
-    printf("[");
+    printf("Total List Size (%zu)\n", list->array_size);
+    printf("Num Elements (%zu)\n[", list->num_elements);
     int i;
     for(i = 0; i < list->num_elements-1; i++){
         void** backing_array = index_into_list(list, i);

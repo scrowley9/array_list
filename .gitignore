@@ -1,3 +1,4 @@
 List.h
 List.c
 run.exe
+*.dSYM/

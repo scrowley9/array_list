@@ -10,13 +10,9 @@ void test1_int(void){
     int arr[5] = {1, 2, 3, 4, 5};
 
     array_list_add(list, &arr[0]);
-    print_integers(list);
     array_list_add(list, &arr[1]);
-    print_integers(list);
     array_list_add(list, &arr[2]);
-    print_integers(list);
     array_list_add(list, &arr[3]);
-    print_integers(list);
     array_list_add(list, &arr[4]);
     print_integers(list);
 
@@ -36,14 +32,24 @@ void test2_int(void){
 
     // Add elements to empty array list
     printf("Output: %s\n", array_list_add(list, &arr[0]) ? "true" : "false");
-    print_integers(list);
     printf("Output: %s\n", array_list_add(list, &arr[1]) ? "true" : "false");
-    print_integers(list);
-
     printf("Output: %s\n", array_list_add(list, &arr[2]) ? "true" : "false");
-    print_integers(list);
     printf("Output: %s\n", array_list_add(list, &arr[3]) ? "true" : "false");
-    print_integers(list);
+    printf("Output: %s\n", array_list_add(list, &arr[4]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[0]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[1]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[2]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[3]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[4]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[0]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[1]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[2]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[3]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[4]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[0]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[1]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[2]) ? "true" : "false");
+    printf("Output: %s\n", array_list_add(list, &arr[3]) ? "true" : "false");
     printf("Output: %s\n", array_list_add(list, &arr[4]) ? "true" : "false");
     print_integers(list);
 
@@ -53,7 +59,7 @@ void test2_int(void){
 
 int main(int argc, char const *argv[])
 {
-    // test1_int();
+    test1_int();
     test2_int();
     return 0;
 }
