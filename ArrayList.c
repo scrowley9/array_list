@@ -14,7 +14,7 @@ struct list{
 
 // Get array ptr to data ptr at index
 static void** index_into_list(array_list* list, int index){
-    return (void**)((uint8_t**)list->array + (index*sizeof(void*)));
+    return (void**)((uint8_t*)list->array + (index*sizeof(void*)));
 }
 
 // Double the Backing Array's Size
@@ -24,10 +24,14 @@ static bool increase_array_size(array_list* list){
     assert(list->array_size >= 0);
 
     // Calculate old and new size in bytes
-    size_t old_size = list->array_size;
-    size_t new_size = list->array_size * 2;
-
-    printf("Old Size: %d\nNew Size: %d\n", old_size, new_size);
+    size_t old_size, new_size;
+    if(list->array_size == 0){
+        old_size = 1;
+        new_size = 1;
+    }else{
+        old_size = list->array_size;
+        new_size = list->array_size * 2;
+    }
 
     // Double Array Size
     void** ptr = realloc(list->array, new_size * sizeof(void*));
@@ -40,11 +44,8 @@ static bool increase_array_size(array_list* list){
     list->array = ptr;
     list->array_size = new_size;
 
-    printf("Ints:");
-    print_integers(list);
-
     // Zero Out the New Memory
-    void* pStart = (void*)index_into_list(list, old_size);
+    void* pStart = (void*)index_into_list(list, new_size/2);
     memset(pStart, 0, old_size*sizeof(void*));
 
     return true;
@@ -65,7 +66,6 @@ array_list* create_array_list(size_t list_size, size_t data_size){
     }
 
     // Allocate for background array
-    if(list_size == 0) list_size = 1;
     void** ptr = calloc(list_size, sizeof(void*));
     if(!ptr){
         destroy_array_list(new_list);
@@ -111,7 +111,7 @@ bool array_list_add(array_list* list, void* data){
     if(list->num_elements >= list->array_size && !increase_array_size(list)){
         return false; // Unable to increase array size
     }
-    
+
     // Allocate Element Memory
     void* element = malloc(sizeof(list->data_size));
     if(!element){
@@ -197,9 +197,8 @@ void print_integers(array_list* list){
     for(i = 0; i < list->num_elements-1; i++){
         void** backing_array = index_into_list(list, i);
         int* element = *backing_array;
-        printf("%d,", *element);
+        printf("%d, ", *element);
     }
-
     void** backing_array = index_into_list(list, i);
     int* element = *backing_array;
     printf("%d]\n", *element);

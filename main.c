@@ -32,13 +32,14 @@ void test2_int(void){
     // Size 0
     array_list* list = create_array_list(0, sizeof(int));
 
-    int arr[5] = {3, 2, 3, 4, 5};
+    int arr[5] = {1, 2, 3, 4, 5};
 
     // Add elements to empty array list
     printf("Output: %s\n", array_list_add(list, &arr[0]) ? "true" : "false");
     print_integers(list);
     printf("Output: %s\n", array_list_add(list, &arr[1]) ? "true" : "false");
     print_integers(list);
+
     printf("Output: %s\n", array_list_add(list, &arr[2]) ? "true" : "false");
     print_integers(list);
     printf("Output: %s\n", array_list_add(list, &arr[3]) ? "true" : "false");

@@ -2,7 +2,7 @@
 CFILES=main.c ArrayList.c
 
 run:
-	gcc $(CFILES) -o run
+	gcc $(CFILES) -o run -g
 
 clean:
-	del /f run.exe
+	rm run
